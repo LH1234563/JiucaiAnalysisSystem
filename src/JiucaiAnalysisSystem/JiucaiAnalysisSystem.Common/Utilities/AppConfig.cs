@@ -10,25 +10,25 @@ public class AppConfig
     /// <summary>
     /// 数据库服务器地址
     /// </summary>
-    public string DbHost { get; set; } = "localhost";
+    public string DbHost { get; set; } 
 
     /// <summary>
     /// 数据库用户名
     /// </summary>
-    public string DbUser { get; set; } = "root";
+    public string DbUser { get; set; }
 
     /// <summary>
     /// 数据库密码
     /// </summary>
-    public string DbPassword { get; set; } = "";
+    public string DbPassword { get; set; }
 
     /// <summary>
     /// 数据库名称
     /// </summary>
-    public string DbName { get; set; } = "mydb";
+    public string DbName { get; set; } 
 
     /// <summary>
     /// 数据库端口
     /// </summary>
-    public int DbPort { get; set; } = 3306;
+    public int DbPort { get; set; }
 }

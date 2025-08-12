@@ -29,4 +29,11 @@
     <ItemGroup>
       <ProjectReference Include="..\JiucaiAnalysisSystem.Core\JiucaiAnalysisSystem.Core.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="appsettings.json" />
+      <Content Include="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
+using JiucaiAnalysisSystem.Core.DB;
 using JiucaiAnalysisSystem.ViewModels;
 using JiucaiAnalysisSystem.Views;
 
@@ -14,6 +15,7 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+        new MySqlDb().CheckAndCreateDatabase();
     }
 
     public override void OnFrameworkInitializationCompleted()
