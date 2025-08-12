@@ -10,7 +10,7 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         PopCardCommand = new RelayCommand(async () =>
         {
-            var date = DateTime.Now.ToString("yyyy-MM-dd");
+            var date = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
             await HttpManage.GetHistoryForDate(date:date);
         });
     }
