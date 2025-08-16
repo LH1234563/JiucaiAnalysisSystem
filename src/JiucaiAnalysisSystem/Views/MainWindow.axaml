@@ -12,6 +12,16 @@
     xmlns:vm="using:JiucaiAnalysisSystem.ViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Opened">
+            <InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
+    <!-- <Interaction.Behaviors> -->
+    <!--     <EventTriggerBehavior EventName="Click"> -->
+    <!--         <InvokeCommandAction Command="{Binding LoadedCommand}" /> -->
+    <!--     </EventTriggerBehavior> -->
+    <!-- </Interaction.Behaviors> -->
     <Design.DataContext>
         <!--
             This only sets the DataContext for the previewer in an IDE,
@@ -20,14 +30,18 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-
-    <Button
-        Command="{Binding PopCardCommand}"
-        Grid.Row="2"
-        Height="45"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center">
-        <Image Source="{StaticResource PopCardButton}" />
-    </Button>
+    <UniformGrid>
+        <Button
+            Content="Button2"
+            Height="45"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center" />
+        <TextBlock FontSize="64" Text="{Binding Tip}" />
+        <DataGrid ItemsSource="{Binding Codes}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </UniformGrid>
 
 </Window>

@@ -11,7 +11,7 @@ public class HttpManage
     /// 获取所有股票代码
     /// </summary>
     /// <returns></returns>
-    private static async Task<List<string>> GetAllStockCodes()
+    public static async Task<List<string>> GetAllStockCodes()
     {
         var codes = new List<string>();
         try
@@ -25,7 +25,7 @@ public class HttpManage
                 page++;
                 string url =
                     $"https://push2.eastmoney.com/api/qt/clist/get?" +
-                    $"pn={page}&pz=100&po=1&np=1&fltt=2&invt=2&fid=f12&fs=m:0 t:6,m:0 t:80,m:1 t:2,m:1 t:23,m:0 t:81 s:2048&fields=f12";
+                    $"pn={page}&pz=100&po=1&np=1&fltt=2&fid=f3&fs=m%3A0%2Bt%3A6%2Cm%3A0%2Bt%3A80%2Cm%3A1%2Bt%3A2%2Cm%3A1%2Bt%3A23%2Cm%3A0%2Bt%3A81%2Bs%3A2048&fields=f12";
                 var json = await client.GetStringAsync(url);
                 var data = JObject.Parse(json)["data"]?["diff"];
                 if (data == null) break;
@@ -43,7 +43,7 @@ public class HttpManage
                     break;
                 }
 
-                await Task.Delay(100);
+                await Task.Delay(300);
             }
 
             Console.WriteLine($"GetAllStockCodes\t{DateTime.Now:O}");
