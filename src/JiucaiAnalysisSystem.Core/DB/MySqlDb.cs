@@ -14,9 +14,8 @@ public class MySqlDb
     {
         try
         {
-            AppConfig config = ConfigManager.LoadConfig();
             string checkQuery =
-                $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '{config.DbName}'";
+                $"SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '{ConfigManager.DbName}'";
             return DbCommand.ExecuteCommand(checkQuery);
         }
         catch (Exception ex)
@@ -34,12 +33,11 @@ public class MySqlDb
     {
         try
         {
-            AppConfig config = ConfigManager.LoadConfig();
             // 创建数据库的SQL命令
             string createDbBaseQuery =
-                $"CREATE DATABASE IF NOT EXISTS {config.DbName} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
+                $"CREATE DATABASE IF NOT EXISTS {ConfigManager.DbName} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
             DbCommand.ExecuteNonQueryCommand(createDbBaseQuery);
-            var createTableQuery = $"CREATE TABLE `{config.DbName}`.`stock_inventory` (" +
+            var createTableQuery = $"CREATE TABLE `{ConfigManager.DbName}`.`stock_inventory` (" +
                                    $"`id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '自增主键'," +
                                    $"`close_price` DECIMAL(18,4) DEFAULT NULL COMMENT '最新价 / 收盘价'," +
                                    $"`change_rate` DECIMAL(10,4) DEFAULT NULL COMMENT '涨跌幅(%)'," +
@@ -140,17 +138,16 @@ public class MySqlDb
     /// </summary>
     public void CheckAndCreateDatabase()
     {
-        AppConfig config = ConfigManager.LoadConfig();
         if (CheckDatabaseExists())
         {
-            Console.WriteLine($"数据库 '{config.DbName}' 已存在。");
+            Console.WriteLine($"数据库 '{ConfigManager.DbName}' 已存在。");
             return;
         }
 
-        Console.WriteLine($"数据库 '{config.DbName}' 不存在，正在创建...");
+        Console.WriteLine($"数据库 '{ConfigManager.DbName}' 不存在，正在创建...");
         if (CreateDatabase())
         {
-            Console.WriteLine($"数据库 '{config.DbName}' 创建成功...");
+            Console.WriteLine($"数据库 '{ConfigManager.DbName}' 创建成功...");
         }
     }
 
@@ -158,8 +155,7 @@ public class MySqlDb
     {
         try
         {
-            AppConfig config = ConfigManager.LoadConfig();
-            string connStr = DbCommand.GetConnectionString();
+            string connStr = DbCommand.ConnectionString;
             using var conn = new MySqlConnection(connStr);
             await conn.OpenAsync();
             string sql = @"

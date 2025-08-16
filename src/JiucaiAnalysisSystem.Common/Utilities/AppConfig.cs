@@ -31,4 +31,8 @@ public class AppConfig
     /// 数据库端口
     /// </summary>
     public int DbPort { get; set; }
+    /// <summary>
+    /// 所有股票代码
+    /// </summary>
+    public List<string> StockCodeAll { get; set; }
 }

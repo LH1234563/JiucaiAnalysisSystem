@@ -13,6 +13,7 @@ public partial class MainWindowViewModel : ViewModelBase
             var date = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
             await HttpManage.GetHistoryForDate(date:date);
         });
+        
     }
 
     /// <summary>

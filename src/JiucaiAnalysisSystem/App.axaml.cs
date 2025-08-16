@@ -4,6 +4,7 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
+using JiucaiAnalysisSystem.Common.Utilities;
 using JiucaiAnalysisSystem.Core.DB;
 using JiucaiAnalysisSystem.ViewModels;
 using JiucaiAnalysisSystem.Views;
@@ -15,7 +16,7 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-        new MySqlDb().CheckAndCreateDatabase();
+        Load();
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -45,5 +46,11 @@ public partial class App : Application
         {
             BindingPlugins.DataValidators.Remove(plugin);
         }
+    }
+
+    private void Load()
+    {
+        ConfigManager.Initialization();
+        new MySqlDb().CheckAndCreateDatabase();
     }
 }

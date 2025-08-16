@@ -7,23 +7,20 @@ namespace JiucaiAnalysisSystem.Common.Utilities;
 /// </summary>
 public class ConfigManager
 {
+    private static AppConfig _config;
+
     // 获取配置文件路径（默认在应用程序运行目录）
     private static string _configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json");
+
 
     /// <summary>
     /// 加载配置文件
     /// </summary>
     /// <returns>配置对象</returns>
-    public static AppConfig LoadConfig()
+    private static AppConfig LoadConfig()
     {
         try
         {
-            // 如果配置文件不存在，则创建默认配置
-            if (!File.Exists(_configFilePath))
-            {
-                return CreateDefaultConfig();
-            }
-
             // 读取配置文件内容
             string jsonContent = File.ReadAllText(_configFilePath);
 
@@ -43,7 +40,7 @@ public class ConfigManager
     /// </summary>
     /// <param name="config">配置对象</param>
     /// <returns>是否保存成功</returns>
-    public static bool SaveConfig(AppConfig config)
+    private static bool SaveConfig()
     {
         try
         {
@@ -51,7 +48,7 @@ public class ConfigManager
             // config.LastUpdated = DateTime.Now;
 
             // 序列化对象为JSON字符串，格式化输出
-            string jsonContent = JsonConvert.SerializeObject(config, Formatting.Indented);
+            string jsonContent = JsonConvert.SerializeObject(_config, Formatting.Indented);
 
             // 写入文件
             File.WriteAllText(_configFilePath, jsonContent);
@@ -64,15 +61,86 @@ public class ConfigManager
         }
     }
 
-    /// <summary>
-    /// 创建默认配置并保存
-    /// </summary>
-    /// <returns>默认配置对象</returns>
-    private static AppConfig CreateDefaultConfig()
+    public static void Initialization()
     {
-        var defaultConfig = new AppConfig();
-        SaveConfig(defaultConfig);
-        Console.WriteLine($"已创建默认配置文件: {_configFilePath}");
-        return defaultConfig;
+        _config = LoadConfig();
+    }
+
+    /// <summary>
+    /// 数据库服务器地址
+    /// </summary>
+    public static string DbHost
+    {
+        get => _config.DbHost;
+        set
+        {
+            _config.DbHost = value;
+            SaveConfig();
+        }
+    }
+
+    /// <summary>
+    /// 数据库用户名
+    /// </summary>
+    public static string DbUser
+    {
+        get => _config.DbUser;
+        set
+        {
+            _config.DbUser = value;
+            SaveConfig();
+        }
+    }
+
+    /// <summary>
+    /// 数据库密码
+    /// </summary>
+    public static string DbPassword
+    {
+        get => _config.DbPassword;
+        set
+        {
+            _config.DbPassword = value;
+            SaveConfig();
+        }
+    }
+
+    /// <summary>
+    /// 数据库名称
+    /// </summary>
+    public static string DbName
+    {
+        get => _config.DbName;
+        set
+        {
+            _config.DbName = value;
+            SaveConfig();
+        }
+    }
+
+    /// <summary>
+    /// 数据库端口
+    /// </summary>
+    public static int DbPort
+    {
+        get => _config.DbPort;
+        set
+        {
+            _config.DbPort = value;
+            SaveConfig();
+        }
+    }
+
+    /// <summary>
+    /// 所有股票代码
+    /// </summary>
+    public static List<string> StockCodeAll
+    {
+        get => _config.StockCodeAll;
+        set
+        {
+            _config.StockCodeAll = value;
+            SaveConfig();
+        }
     }
 }

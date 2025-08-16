@@ -8,20 +8,14 @@ public class DbCommand
     /// <summary>
     /// 连接字符串
     /// </summary>
-    /// <returns></returns>
-    public static string GetConnectionString()
-    {
-        AppConfig config = ConfigManager.LoadConfig();
-        // 连接字符串
-        return $"Server={config.DbHost};Uid={config.DbUser};Pwd={config.DbPassword};SslMode=None;";
-    }
+    public static readonly string ConnectionString =
+        $"Server={ConfigManager.DbHost};Uid={ConfigManager.DbUser};Pwd={ConfigManager.DbPassword};SslMode=None;";
 
     public static bool ExecuteCommand(string sql)
     {
         try
         {
-            string connectionString = GetConnectionString();
-            using (var connection = new MySqlConnection(connectionString))
+            using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (var command = new MySqlCommand(sql, connection))
@@ -43,8 +37,7 @@ public class DbCommand
     {
         try
         {
-            string connectionString = GetConnectionString();
-            using (var connection = new MySqlConnection(connectionString))
+            using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
                 using (var command = new MySqlCommand(sql, connection))
@@ -61,12 +54,12 @@ public class DbCommand
             return false;
         }
     }
+
     public static bool ExecuteNonQueryCommand(List<string> sqls)
     {
         try
         {
-            string connectionString = GetConnectionString();
-            using (var connection = new MySqlConnection(connectionString))
+            using (var connection = new MySqlConnection(ConnectionString))
             {
                 connection.Open();
                 foreach (var sql in sqls)
@@ -74,6 +67,7 @@ public class DbCommand
                     using var command = new MySqlCommand(sql, connection);
                     command.ExecuteNonQuery();
                 }
+
                 return true;
             }
         }
