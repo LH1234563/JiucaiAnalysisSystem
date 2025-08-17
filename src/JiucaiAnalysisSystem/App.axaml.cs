@@ -50,6 +50,7 @@ public partial class App : Application
     private void Load()
     {
         ConfigManager.Initialization();
-        new MySqlDb().CheckAndCreateDatabase();
+        MySqlDb.InitDb();
+        // new MySqlDb().CheckAndCreateDatabase();
     }
 }

@@ -10,5 +10,9 @@
       <ProjectReference Include="..\JiucaiAnalysisSystem.Common\JiucaiAnalysisSystem.Common.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="SqlSugarCore" Version="5.1.4.199" />
+    </ItemGroup>
+
 
 </Project>
