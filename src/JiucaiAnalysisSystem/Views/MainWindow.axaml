@@ -7,6 +7,7 @@
     x:Class="JiucaiAnalysisSystem.Views.MainWindow"
     x:DataType="vm:MainWindowViewModel"
     xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:JiucaiAnalysisSystem.Resource.Controls;assembly=JiucaiAnalysisSystem.Resource"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:JiucaiAnalysisSystem.ViewModels"
@@ -36,24 +37,29 @@
             Height="64"
             Orientation="Horizontal">
             <Button
-                Command="{Binding UpdateDataCommand}"
-                CommandParameter="{Binding #DatePicker.SelectedDate}"
-                Content="Button2"
+                Command="{Binding RefreshDataCommand}"
+                Content="刷新数据"
                 Height="45"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
-            <DatePicker DayFormat="ddd dd" Name="DatePicker" />
+            <DatePicker DayFormat="ddd dd" SelectedDate="{Binding SelectedDate}">
+                <Interaction.Behaviors>
+                    <EventTriggerBehavior EventName="SelectedDateChanged">
+                        <InvokeCommandAction Command="{Binding SelectedDateChangedCommand}" />
+                    </EventTriggerBehavior>
+                </Interaction.Behaviors>
+            </DatePicker>
             <TextBlock FontSize="64" Text="{Binding Tip}" />
         </StackPanel>
 
-        <DataGrid
+        <controls:MyDataGrid
             AutoGenerateColumns="True"
             CanUserReorderColumns="True"
             CanUserResizeColumns="True"
             CanUserSortColumns="True"
             Grid.Row="1"
             ItemsSource="{Binding EastMoneyStocks}">
-            <DataGrid.Columns>
+            <controls:MyDataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Id}" Header="ID" />
                 <DataGridTextColumn Binding="{Binding StockCode}" Header="股票代码" />
                 <DataGridTextColumn Binding="{Binding StockName}" Header="股票名称" />
@@ -139,8 +145,8 @@
                 <DataGridTextColumn Binding="{Binding PeTtm}" Header="市盈率（TTM）" />
                 <DataGridTextColumn Binding="{Binding UpdateDate}" Header="更新日期" />
                 <DataGridTextColumn Binding="{Binding CurrentDate}" Header="当前日期" />
-            </DataGrid.Columns>
-        </DataGrid>
+            </controls:MyDataGrid.Columns>
+        </controls:MyDataGrid>
     </Grid>
 
 </Window>

@@ -16,21 +16,28 @@ public class MainWindowViewModel : ViewModelBase
 {
     public MainWindowViewModel()
     {
-        LoadedCommand = ReactiveCommand.Create(Load);
-        UpdateDataCommand = ReactiveCommand.Create<object?, Task>(OnUpdateData);
+        LoadedCommand = ReactiveCommand.Create(Loaded);
+        RefreshDataCommand = ReactiveCommand.Create(OnRefreshData);
+        SelectedDateChangedCommand = ReactiveCommand.Create(OnRefreshData);
     }
 
-    private async Task OnUpdateData(object? obj)
+    #region Method
+
+    private async Task OnRefreshData()
     {
         try
         {
-            if (obj is DateTimeOffset date)
+            bool anyStock = await MySqlDb.Db.Queryable<EastMoneyStock>()
+                .Where(it => it.CurrentDate == SelectedDate.ToString("yyyyMMdd")).CountAsync() > 5000;
+            if (!anyStock)
             {
-                var eastMoneyStocks = await HttpManage.GetHistoryForDate(date.ToString("yyyyMMdd"));
-                var result = await MySqlDb.Db.Insertable(eastMoneyStocks).ExecuteCommandAsync();
+                Tip = "正在更新数据";
+                var eastMoneyStocks = await HttpManage.GetHistoryForDate(SelectedDate.ToString("yyyyMMdd"));
+                await MySqlDb.Db.Insertable(eastMoneyStocks).ExecuteCommandAsync();
             }
 
             Refresh();
+            Tip = null;
         }
         catch (Exception e)
         {
@@ -39,7 +46,7 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    private async Task Load()
+    private async Task Loaded()
     {
         if (!ConfigManager.StockCodeAll.Any())
         {
@@ -51,15 +58,18 @@ public class MainWindowViewModel : ViewModelBase
             }
         }
 
-        Codes.AddRange(ConfigManager.StockCodeAll);
-        Refresh();
+        // Codes.AddRange(ConfigManager.StockCodeAll);
+        await OnRefreshData();
     }
 
     private void Refresh()
     {
         try
         {
-            var result = MySqlDb.Db.Queryable<EastMoneyStock>().ToList();
+            var result = MySqlDb.Db.Queryable<EastMoneyStock>()
+                .Where(it => it.CurrentDate == SelectedDate.ToString("yyyyMMdd")).ToList();
+
+            EastMoneyStocks.Clear();
             EastMoneyStocks.AddRange(result);
         }
         catch (Exception e)
@@ -68,42 +78,63 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public ReactiveCommand<Unit, Task> LoadedCommand { get; }
-    public ReactiveCommand<object?, Task> UpdateDataCommand { get; }
+    #endregion
 
-    /// <summary>
-    /// 进入业务模块
-    /// </summary>
+    #region Commands
+
+    public ReactiveCommand<Unit, Task> LoadedCommand { get; }
+    public ReactiveCommand<Unit, Task> SelectedDateChangedCommand { get; }
+    public ReactiveCommand<Unit, Task> RefreshDataCommand { get; }
+
+    #endregion
+
+    #region UIBinding
+
     private string? _tip;
 
-    /// <summary>
-    /// 自定义背景图
-    /// </summary>
     public string? Tip
     {
         get => _tip;
         set => this.RaiseAndSetIfChanged(ref _tip, value);
     }
 
-    private ObservableCollection<string> _codes = new();
-
     /// <summary>
-    /// 自定义背景图
+    /// 进入业务模块
     /// </summary>
-    public ObservableCollection<string> Codes
+    private DateTimeOffset _selectedDate = DateTimeOffset.Now;
+
+    public DateTimeOffset SelectedDate
     {
-        get => _codes;
-        set => this.RaiseAndSetIfChanged(ref _codes, value);
+        get => _selectedDate;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _selectedDate, value);
+            Refresh();
+        }
     }
 
-    private ObservableCollection<EastMoneyStock> _eastMoneyStocks = new();
 
     /// <summary>
-    /// 自定义背景图
+    /// 所有股票代码
     /// </summary>
+    // private ObservableCollection<string> _codes = new();
+    //
+    // public ObservableCollection<string> Codes
+    // {
+    //     get => _codes;
+    //     set => this.RaiseAndSetIfChanged(ref _codes, value);
+    // }
+
+    /// <summary>
+    /// 所有股票
+    /// </summary>
+    private ObservableCollection<EastMoneyStock> _eastMoneyStocks = new();
+
     public ObservableCollection<EastMoneyStock> EastMoneyStocks
     {
         get => _eastMoneyStocks;
         set => this.RaiseAndSetIfChanged(ref _eastMoneyStocks, value);
     }
+
+    #endregion
 }
