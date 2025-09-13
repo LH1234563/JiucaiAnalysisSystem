@@ -1,109 +1,55 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
-using DynamicData;
-using JiucaiAnalysisSystem.Common.Entity;
+using Avalonia.Collections;
 using JiucaiAnalysisSystem.Common.Utilities;
-using JiucaiAnalysisSystem.Core.DB;
 using JiucaiAnalysisSystem.Core.HttpManage;
+using JiucaiAnalysisSystem.Core.ModelBase;
+using JiucaiAnalysisSystem.Services;
 using ReactiveUI;
+using SukiUI.Dialogs;
+using SukiUI.Toasts;
 
 namespace JiucaiAnalysisSystem.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : ReactiveObject
 {
-    public MainWindowViewModel()
+    public IAvaloniaReadOnlyList<PageBase> Pages { get; }
+
+    public MainWindowViewModel(IEnumerable<PageBase> pages, PageNavigationService pageNavigationService,
+        ISukiToastManager toastManager, ISukiDialogManager dialogManager)
     {
+        Pages = new AvaloniaList<PageBase>(pages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         LoadedCommand = ReactiveCommand.Create(Load);
-        UpdateDataCommand = ReactiveCommand.Create<object?, Task>(OnUpdateData);
-    }
-
-    private async Task OnUpdateData(object? obj)
-    {
-        try
-        {
-            if (obj is DateTimeOffset date)
-            {
-                var eastMoneyStocks = await HttpManage.GetHistoryForDate(date.ToString("yyyyMMdd"));
-                var result = await MySqlDb.Db.Insertable(eastMoneyStocks).ExecuteCommandAsync();
-            }
-
-            Refresh();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            Log.Logger.Error(e.Message);
-        }
-    }
-
-    private async Task Load()
-    {
-        if (!ConfigManager.StockCodeAll.Any())
-        {
-            Tip = "正在更新股票代码";
-            ConfigManager.StockCodeAll = await HttpManage.GetAllStockCodes();
-            if (ConfigManager.StockCodeAll.Any())
-            {
-                Tip = null;
-            }
-        }
-
-        Codes.AddRange(ConfigManager.StockCodeAll);
-        Refresh();
-    }
-
-    private void Refresh()
-    {
-        try
-        {
-            var result = MySqlDb.Db.Queryable<EastMoneyStock>().ToList();
-            EastMoneyStocks.AddRange(result);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
     }
 
     public ReactiveCommand<Unit, Task> LoadedCommand { get; }
-    public ReactiveCommand<object?, Task> UpdateDataCommand { get; }
 
-    /// <summary>
-    /// 进入业务模块
-    /// </summary>
-    private string? _tip;
-
-    /// <summary>
-    /// 自定义背景图
-    /// </summary>
-    public string? Tip
+    private async Task Load()
     {
-        get => _tip;
-        set => this.RaiseAndSetIfChanged(ref _tip, value);
+        if (MeasureHelper.IsExistStockCodeAll())
+        {
+            return;
+        }
+        
+        var stockCodeAll = await HttpManage.GetAllStockCodes();
+        if (stockCodeAll.Count < 5000)
+        {
+            return;
+        }
+
+        ConfigManager.StockCodeAll = stockCodeAll;
     }
 
-    private ObservableCollection<string> _codes = new();
-
     /// <summary>
-    /// 自定义背景图
+    /// 
     /// </summary>
-    public ObservableCollection<string> Codes
-    {
-        get => _codes;
-        set => this.RaiseAndSetIfChanged(ref _codes, value);
-    }
+    private PageBase? _activePage;
 
-    private ObservableCollection<EastMoneyStock> _eastMoneyStocks = new();
-
-    /// <summary>
-    /// 自定义背景图
-    /// </summary>
-    public ObservableCollection<EastMoneyStock> EastMoneyStocks
+    public PageBase? ActivePage
     {
-        get => _eastMoneyStocks;
-        set => this.RaiseAndSetIfChanged(ref _eastMoneyStocks, value);
+        get => _activePage;
+        set => this.RaiseAndSetIfChanged(ref _activePage, value);
     }
 }

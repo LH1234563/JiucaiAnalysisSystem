@@ -57,6 +57,54 @@ public class HttpManage
     }
 
     /// <summary>
+    /// 获取所有交易日历-历史数据
+    /// </summary>
+    /// <returns></returns>
+    // public static async Task<List<DateTime>> GetAllTradeTdate()
+    // {
+    //     var codes = new List<DateTime>();
+    //     try
+    //     {
+    //         using var client = new HttpClient();
+    //
+    //         Console.WriteLine($"GetAllTradeTdate\t{DateTime.Now:O}");
+    //         var page = 0;
+    //         while (true)
+    //         {
+    //             page++;
+    //             string url =
+    //                 $"https://finance.sina.com.cn/realstock/company/klc_td_sh.txt";
+    //             var json = await client.GetStringAsync(url);
+    //             var data = JObject.Parse(json)["data"]?["diff"];
+    //             if (data == null) break;
+    //             int count = 0;
+    //             foreach (var item in data)
+    //             {
+    //                 string code = item["f12"]?.ToString();
+    //                 if (!string.IsNullOrEmpty(code))
+    //                     codes.Add(code);
+    //                 count++;
+    //             }
+    //
+    //             if (count < 100)
+    //             {
+    //                 break;
+    //             }
+    //
+    //             await Task.Delay(300);
+    //         }
+    //
+    //         Console.WriteLine($"GetAllStockCodes\t{DateTime.Now:O}");
+    //         return codes;
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Console.WriteLine(e);
+    //         return codes;
+    //     }
+    // }
+
+    /// <summary>
     /// 获取股票某一日的历史数据
     /// </summary>
     /// <param name="code">股票代码</param>

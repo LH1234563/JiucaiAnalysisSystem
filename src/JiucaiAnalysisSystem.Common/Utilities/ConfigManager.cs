@@ -134,12 +134,25 @@ public class ConfigManager
     /// <summary>
     /// 所有股票代码
     /// </summary>
-    public static List<string> StockCodeAll
+    public static List<string>? StockCodeAll
     {
         get => _config.StockCodeAll;
         set
         {
             _config.StockCodeAll = value;
+            SaveConfig();
+        }
+    }
+
+    /// <summary>
+    /// 所有股票代码
+    /// </summary>
+    public static DateTime? SelectedDate
+    {
+        get => _config.SelectedDate;
+        set
+        {
+            _config.SelectedDate = value;
             SaveConfig();
         }
     }

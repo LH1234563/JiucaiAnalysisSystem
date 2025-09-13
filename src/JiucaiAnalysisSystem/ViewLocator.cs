@@ -1,30 +1,38 @@
-using System;
+using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using JiucaiAnalysisSystem.ViewModels;
+using JiucaiAnalysisSystem.Common;
+using ReactiveUI;
 
 namespace JiucaiAnalysisSystem;
 
-public class ViewLocator : IDataTemplate
+public class ViewLocator(SukiViews views) : IDataTemplate
 {
-    public Control? Build(object? param)
+    private readonly Dictionary<object, Control> _controlCache = [];
+
+    public Control Build(object? param)
     {
         if (param is null)
-            return null;
-
-        var name = param.GetType().FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
-        var type = Type.GetType(name);
-
-        if (type != null)
         {
-            return (Control)Activator.CreateInstance(type)!;
+            return CreateText("Data is null.");
         }
 
-        return new TextBlock { Text = "Not Found: " + name };
+        if (_controlCache.TryGetValue(param, out var control))
+        {
+            return control;
+        }
+
+        if (views.TryCreateView(param, out var view))
+        {
+            _controlCache.Add(param, view);
+
+            return view;
+        }
+
+        return CreateText($"No View For {param.GetType().Name}.");
     }
 
-    public bool Match(object? data)
-    {
-        return data is ViewModelBase;
-    }
+    public bool Match(object? data) => data is ReactiveObject;
+
+    private static TextBlock CreateText(string text) => new TextBlock { Text = text };
 }

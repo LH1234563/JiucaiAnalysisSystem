@@ -1,17 +1,13 @@
-using Avalonia;
-using Avalonia.Controls;
+using SukiUI.Controls;
 
 namespace JiucaiAnalysisSystem.Views;
 
-public partial class MainWindow : Window
+
+public partial class MainWindow : SukiWindow
 {
     public MainWindow()
     {
         InitializeComponent();
     }
 
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
-    {
-        base.OnAttachedToVisualTree(e);
-    }
 }
