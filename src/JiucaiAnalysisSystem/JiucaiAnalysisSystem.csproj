@@ -13,6 +13,7 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\JiucaiAnalysisSystem.Core\JiucaiAnalysisSystem.Core.csproj" />
+      <ProjectReference Include="..\JiucaiAnalysisSystem.Resource\JiucaiAnalysisSystem.Resource.csproj" />
     </ItemGroup>
 
     <ItemGroup>
