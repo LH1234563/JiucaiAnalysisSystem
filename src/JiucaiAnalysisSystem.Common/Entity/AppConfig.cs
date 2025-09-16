@@ -1,4 +1,4 @@
-﻿namespace JiucaiAnalysisSystem.Common.Utilities;
+﻿namespace JiucaiAnalysisSystem.Common.Entity;
 
 /// <summary>
 /// 应用程序配置模型
@@ -29,6 +29,7 @@ public class AppConfig
     /// 数据库端口
     /// </summary>
     public int DbPort { get; set; }
+    public string DateTimeEncodedCode { get; set; } = "";
 
     /// <summary>
     /// 所有股票代码

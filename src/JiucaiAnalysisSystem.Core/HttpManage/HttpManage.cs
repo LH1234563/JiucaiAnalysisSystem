@@ -60,49 +60,45 @@ public class HttpManage
     /// 获取所有交易日历-历史数据
     /// </summary>
     /// <returns></returns>
-    // public static async Task<List<DateTime>> GetAllTradeTdate()
-    // {
-    //     var codes = new List<DateTime>();
-    //     try
-    //     {
-    //         using var client = new HttpClient();
-    //
-    //         Console.WriteLine($"GetAllTradeTdate\t{DateTime.Now:O}");
-    //         var page = 0;
-    //         while (true)
-    //         {
-    //             page++;
-    //             string url =
-    //                 $"https://finance.sina.com.cn/realstock/company/klc_td_sh.txt";
-    //             var json = await client.GetStringAsync(url);
-    //             var data = JObject.Parse(json)["data"]?["diff"];
-    //             if (data == null) break;
-    //             int count = 0;
-    //             foreach (var item in data)
-    //             {
-    //                 string code = item["f12"]?.ToString();
-    //                 if (!string.IsNullOrEmpty(code))
-    //                     codes.Add(code);
-    //                 count++;
-    //             }
-    //
-    //             if (count < 100)
-    //             {
-    //                 break;
-    //             }
-    //
-    //             await Task.Delay(300);
-    //         }
-    //
-    //         Console.WriteLine($"GetAllStockCodes\t{DateTime.Now:O}");
-    //         return codes;
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         Console.WriteLine(e);
-    //         return codes;
-    //     }
-    // }
+    public static async Task<List<DateTime>> GetAllTradeDate()
+    {
+        var dateTimes = new List<DateTime>();
+        try
+        {
+            string encodedData;
+            try
+            {
+                using var client = new HttpClient();
+
+                Console.WriteLine($"GetAllTradeTdate\t{DateTime.Now:O}");
+                string url =
+                    $"https://finance.sina.com.cn/realstock/company/klc_td_sh.txt";
+                var json = await client.GetStringAsync(url);
+                encodedData = json.Split("=")[1].Split(";")[0].Replace("\"", "");
+            }
+            catch (Exception e)
+            {
+                if (string.IsNullOrEmpty(ConfigManager.DateTimeEncodedCode))
+                {
+                    return dateTimes;
+                }
+
+                encodedData = ConfigManager.DateTimeEncodedCode;
+                Console.WriteLine(e);
+            }
+
+            var tradeDateDecoder = new TradeDateDecoder();
+            dateTimes = (List<DateTime>)tradeDateDecoder.Decode(encodedData);
+            ConfigManager.DateTimeEncodedCode = encodedData;
+            Console.WriteLine($"GetAllTradeTdate\t{DateTime.Now:O}");
+            return dateTimes;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return dateTimes;
+        }
+    }
 
     /// <summary>
     /// 获取股票某一日的历史数据

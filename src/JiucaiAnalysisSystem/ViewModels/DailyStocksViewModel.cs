@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using DynamicData;
@@ -95,6 +94,16 @@ public class DailyStocksViewModel() : PageBase("每日数据", MaterialIconKind.
 
             this.RaiseAndSetIfChanged(ref _selectedDate, value);
         }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    private DateTime _tradeDates;
+
+    public DateTime TradeDates
+    {
+        get => _tradeDates;
+        set => this.RaiseAndSetIfChanged(ref _tradeDates, value);
     }
 
 

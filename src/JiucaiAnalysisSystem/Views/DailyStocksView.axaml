@@ -33,7 +33,7 @@
                 Height="45"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
-            <CalendarDatePicker Name="DatePicker" SelectedDate="{Binding SelectedDate}" />
+            <CalendarDatePicker Loaded="Control_OnLoaded" SelectedDate="{Binding SelectedDate}" />
         </StackPanel>
 
         <DataGrid

@@ -1,16 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿using JiucaiAnalysisSystem.Common.Entity;
+using Newtonsoft.Json;
 
 namespace JiucaiAnalysisSystem.Common.Utilities;
 
 /// <summary>
 /// 配置文件管理器
 /// </summary>
-public class ConfigManager
+public static class ConfigManager
 {
     private static AppConfig _config;
 
     // 获取配置文件路径（默认在应用程序运行目录）
     private static string _configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json");
+    public static List<DateTime> TradeDates = new List<DateTime>();
 
 
     /// <summary>
@@ -127,6 +129,19 @@ public class ConfigManager
         set
         {
             _config.DbPort = value;
+            SaveConfig();
+        }
+    }
+
+    /// <summary>
+    /// 交易日历压缩后的字符串，待访问不了新浪接口时使用
+    /// </summary>
+    public static string DateTimeEncodedCode
+    {
+        get => _config.DateTimeEncodedCode;
+        set
+        {
+            _config.DateTimeEncodedCode = value;
             SaveConfig();
         }
     }
