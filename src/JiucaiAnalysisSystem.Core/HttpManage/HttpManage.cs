@@ -11,9 +11,9 @@ public class HttpManage
     /// 获取所有股票代码
     /// </summary>
     /// <returns></returns>
-    public static async Task<List<string>> GetAllStockCodes()
+    public static async Task<Dictionary<string, string>> GetAllStockCodes()
     {
-        var codes = new List<string>();
+        var codes = new Dictionary<string, string>();
         try
         {
             using var client = new HttpClient();
@@ -25,7 +25,7 @@ public class HttpManage
                 page++;
                 string url =
                     $"https://push2.eastmoney.com/api/qt/clist/get?" +
-                    $"pn={page}&pz=100&po=1&np=1&fltt=2&fid=f3&fs=m%3A0%2Bt%3A6%2Cm%3A0%2Bt%3A80%2Cm%3A1%2Bt%3A2%2Cm%3A1%2Bt%3A23%2Cm%3A0%2Bt%3A81%2Bs%3A2048&fields=f12";
+                    $"pn={page}&pz=100&po=1&np=1&fltt=2&fid=f3&fs=m%3A0%2Bt%3A6%2Cm%3A0%2Bt%3A80%2Cm%3A1%2Bt%3A2%2Cm%3A1%2Bt%3A23%2Cm%3A0%2Bt%3A81%2Bs%3A2048&fields=f12,f26";
                 var json = await client.GetStringAsync(url);
                 var data = JObject.Parse(json)["data"]?["diff"];
                 if (data == null) break;
@@ -33,8 +33,9 @@ public class HttpManage
                 foreach (var item in data)
                 {
                     string code = item["f12"]?.ToString();
+                    string date = item["f26"]?.ToString();
                     if (!string.IsNullOrEmpty(code))
-                        codes.Add(code);
+                        codes.Add(code, date);
                     count++;
                 }
 
@@ -146,7 +147,7 @@ public class HttpManage
     /// <returns></returns>
     public static async Task<List<EastMoneyStock>> GetHistoryForDate(string date)
     {
-        var codes = ConfigManager.StockCodeAll;
+        var codes = ConfigManager.StockCodeAll.Keys;
         var list = new List<EastMoneyStock>();
         // 使用LINQ分组，每10个一组，并拼接
         var result = codes

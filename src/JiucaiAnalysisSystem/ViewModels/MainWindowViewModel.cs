@@ -24,29 +24,6 @@ public class MainWindowViewModel : ReactiveObject
     {
         Pages = new AvaloniaList<PageBase>(pages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         LoadedCommand = ReactiveCommand.Create(Load);
-        Initialized();
-    }
-
-    private async void Initialized()
-    {
-        var dateTimes = await HttpManage.GetAllTradeDate();
-        if (dateTimes.Count > 0)
-        {
-            ConfigManager.TradeDates = dateTimes;
-        }
-
-        if (MeasureHelper.IsExistStockCodeAll())
-        {
-            return;
-        }
-
-        var stockCodeAll = await HttpManage.GetAllStockCodes();
-        if (stockCodeAll.Count < 5000)
-        {
-            return;
-        }
-
-        ConfigManager.StockCodeAll = stockCodeAll;
     }
 
     public ReactiveCommand<Unit, Task> LoadedCommand { get; }

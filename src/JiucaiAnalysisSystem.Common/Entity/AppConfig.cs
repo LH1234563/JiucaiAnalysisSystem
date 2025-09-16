@@ -13,31 +13,33 @@ public class AppConfig
     /// <summary>
     /// 数据库用户名
     /// </summary>
-    public string DbUser { get; set; }= "root";
+    public string DbUser { get; set; } = "root";
 
     /// <summary>
     /// 数据库密码
     /// </summary>
-    public string DbPassword { get; set; }= "123456";
+    public string DbPassword { get; set; } = "123456";
 
     /// <summary>
     /// 数据库名称
     /// </summary>
-    public string DbName { get; set; }= "stockdb";
+    public string DbName { get; set; } = "stockdb";
 
     /// <summary>
     /// 数据库端口
     /// </summary>
     public int DbPort { get; set; }
+
     public string DateTimeEncodedCode { get; set; } = "";
 
     /// <summary>
     /// 所有股票代码
+    /// key股票代码，value上市日期
     /// </summary>
-    public List<string>? StockCodeAll { get; set; }
+    public Dictionary<string, string>? StockCodeAll { get; set; }
 
     /// <summary>
     /// 每日股票选择的日期
     /// </summary>
-    public DateTime? SelectedDate { get; set; }
+    // public DateTime? SelectedDate { get; set; }
 }

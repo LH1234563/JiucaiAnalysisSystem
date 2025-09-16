@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -20,5 +20,10 @@
         </PackageReference>
         <PackageReference Include="Avalonia.ReactiveUI" Version="11.3.4"/>
         <PackageReference Include="Xaml.Behaviors.Avalonia" Version="11.3.2" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\JiucaiAnalysisSystem.Common\JiucaiAnalysisSystem.Common.csproj" />
     </ItemGroup>
 </Project>

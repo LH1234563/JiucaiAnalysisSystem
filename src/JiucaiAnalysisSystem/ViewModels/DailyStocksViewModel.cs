@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using DynamicData;
@@ -17,17 +18,38 @@ public class DailyStocksViewModel() : PageBase("每日数据", MaterialIconKind.
 {
     public ReactiveCommand<Unit, Task> UpdateDataCommand => ReactiveCommand.Create(OnUpdateData);
 
-    public ReactiveCommand<Unit, Unit> LoadedCommand => ReactiveCommand.Create(Load);
+    public ReactiveCommand<Unit, Task> LoadedCommand => ReactiveCommand.Create(Load);
 
-    private void Load()
+    private async Task Load()
     {
-        if (ConfigManager.SelectedDate is null)
+        try
         {
-            ConfigManager.SelectedDate = DateTime.Now.Date;
+            var dateTimes = await HttpManage.GetAllTradeDate();
+            if (dateTimes.Count > 0)
+            {
+                SelectedDate = dateTimes.Last();
+                TradeDates = new ObservableCollection<DateTime>(dateTimes);
+                DisplayDateEnd = dateTimes.Last();
+                DisplayDateStart = dateTimes.First();
+                ConfigManager.TradeDates = dateTimes;
+            }
+
+            if (MeasureHelper.IsExistStockCodeAll())
+            {
+                return;
+            }
+
+            var stockCodeAll = await HttpManage.GetAllStockCodes();
+            if (stockCodeAll.Count < 5000)
+            {
+                return;
+            }
+
+            ConfigManager.StockCodeAll = stockCodeAll;
         }
-        else
+        catch (Exception e)
         {
-            SelectedDate = ConfigManager.SelectedDate.Value;
+            Log.Logger.Error(e.Message);
         }
     }
 
@@ -95,33 +117,44 @@ public class DailyStocksViewModel() : PageBase("每日数据", MaterialIconKind.
             this.RaiseAndSetIfChanged(ref _selectedDate, value);
         }
     }
+
     /// <summary>
     /// 
     /// </summary>
-    private DateTime _tradeDates;
+    private ObservableCollection<DateTime> _tradeDates;
 
-    public DateTime TradeDates
+    public ObservableCollection<DateTime> TradeDates
     {
         get => _tradeDates;
         set => this.RaiseAndSetIfChanged(ref _tradeDates, value);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    private DateTime _displayDateEnd;
 
-    private ObservableCollection<string> _codes = new();
+    public DateTime DisplayDateEnd
+    {
+        get => _displayDateEnd;
+        set => this.RaiseAndSetIfChanged(ref _displayDateEnd, value);
+    }
 
     /// <summary>
-    /// 自定义背景图
+    /// 
     /// </summary>
-    public ObservableCollection<string> Codes
+    private DateTime _displayDateStart;
+
+    public DateTime DisplayDateStart
     {
-        get => _codes;
-        set => this.RaiseAndSetIfChanged(ref _codes, value);
+        get => _displayDateStart;
+        set => this.RaiseAndSetIfChanged(ref _displayDateStart, value);
     }
 
     private ObservableCollection<EastMoneyStock> _eastMoneyStocks = new();
 
     /// <summary>
-    /// 自定义背景图
+    /// 
     /// </summary>
     public ObservableCollection<EastMoneyStock> EastMoneyStocks
     {

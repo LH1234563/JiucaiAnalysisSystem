@@ -5,6 +5,7 @@
     x:Class="JiucaiAnalysisSystem.Views.DailyStocksView"
     x:DataType="viewModels:DailyStocksViewModel"
     xmlns="https://github.com/avaloniaui"
+    xmlns:controls="clr-namespace:JiucaiAnalysisSystem.Resource.Controls;assembly=JiucaiAnalysisSystem.Resource"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:JiucaiAnalysisSystem.ViewModels"
@@ -33,7 +34,11 @@
                 Height="45"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
-            <CalendarDatePicker Loaded="Control_OnLoaded" SelectedDate="{Binding SelectedDate}" />
+            <controls:MyCalendarDatePicker
+                DateTimesItemsSource="{Binding TradeDates}"
+                DisplayDateEnd="{Binding DisplayDateEnd}"
+                DisplayDateStart="{Binding DisplayDateStart}"
+                SelectedDate="{Binding SelectedDate}" />
         </StackPanel>
 
         <DataGrid
