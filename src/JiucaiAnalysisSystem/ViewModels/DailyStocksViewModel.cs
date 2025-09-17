@@ -29,8 +29,6 @@ public class DailyStocksViewModel() : PageBase("每日数据", MaterialIconKind.
             {
                 SelectedDate = dateTimes.Last();
                 TradeDates = new ObservableCollection<DateTime>(dateTimes);
-                DisplayDateEnd = dateTimes.Last();
-                DisplayDateStart = dateTimes.First();
                 ConfigManager.TradeDates = dateTimes;
             }
 
@@ -127,28 +125,6 @@ public class DailyStocksViewModel() : PageBase("每日数据", MaterialIconKind.
     {
         get => _tradeDates;
         set => this.RaiseAndSetIfChanged(ref _tradeDates, value);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    private DateTime _displayDateEnd;
-
-    public DateTime DisplayDateEnd
-    {
-        get => _displayDateEnd;
-        set => this.RaiseAndSetIfChanged(ref _displayDateEnd, value);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    private DateTime _displayDateStart;
-
-    public DateTime DisplayDateStart
-    {
-        get => _displayDateStart;
-        set => this.RaiseAndSetIfChanged(ref _displayDateStart, value);
     }
 
     private ObservableCollection<EastMoneyStock> _eastMoneyStocks = new();

@@ -19,7 +19,7 @@ public static class ConfigManager
     /// 加载配置文件
     /// </summary>
     /// <returns>配置对象</returns>
-    private static AppConfig LoadConfig()
+    private static AppConfig? LoadConfig()
     {
         try
         {
@@ -33,7 +33,7 @@ public static class ConfigManager
         {
             Console.WriteLine($"加载配置文件失败: {ex.Message}");
             // 发生错误时返回默认配置
-            return new AppConfig();
+            return null;
         }
     }
 
@@ -63,9 +63,13 @@ public static class ConfigManager
         }
     }
 
-    public static void Initialization()
+    public static bool Initialization()
     {
-        _config = LoadConfig();
+        var config = LoadConfig();
+        if (config == null)
+            return false;
+        _config = config;
+        return true;
     }
 
     /// <summary>

@@ -8,11 +8,11 @@ public class MyCalendarDatePicker : CalendarDatePicker
 {
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
+        base.OnPropertyChanged(change);
         if (change.Property == DateTimesItemsSourceProperty)
         {
             try
             {
-
                 IList<DateTime> dateTimes = (IList<DateTime>)change.NewValue;
                 // var dateTimes = change.NewValue;
                 if (dateTimes == null ||
@@ -21,6 +21,9 @@ public class MyCalendarDatePicker : CalendarDatePicker
                 // 为每一个允许的日期创建一个单日的 CalendarDateRange
                 var startTime = dateTimes.First();
                 var endTime = dateTimes.Last();
+
+                SetCurrentValue(DisplayDateStartProperty,dateTimes.First());
+                SetCurrentValue(DisplayDateEndProperty,  dateTimes.Last());
                 while (startTime < endTime)
                 {
                     startTime = startTime.AddDays(1);
@@ -39,7 +42,6 @@ public class MyCalendarDatePicker : CalendarDatePicker
                 Console.WriteLine(e);
             }
         }
-        base.OnPropertyChanged(change);
     }
 
     public static readonly StyledProperty<IList<DateTime>> DateTimesItemsSourceProperty =

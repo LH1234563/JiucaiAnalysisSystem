@@ -6,6 +6,7 @@ using Avalonia.Collections;
 using Avalonia.Xaml.Interactions.Custom;
 using JiucaiAnalysisSystem.Common.Entity;
 using JiucaiAnalysisSystem.Common.Utilities;
+using JiucaiAnalysisSystem.Core.DB;
 using JiucaiAnalysisSystem.Core.HttpManage;
 using JiucaiAnalysisSystem.Core.ModelBase;
 using JiucaiAnalysisSystem.Services;
@@ -26,11 +27,19 @@ public class MainWindowViewModel : ReactiveObject
         LoadedCommand = ReactiveCommand.Create(Load);
     }
 
-    public ReactiveCommand<Unit, Task> LoadedCommand { get; }
+    public ReactiveCommand<Unit, Unit> LoadedCommand { get; }
 
-    private async Task Load()
+    private void Load()
     {
-        await Task.Delay(1);
+        if (!ConfigManager.Initialization())
+        {
+            
+        }
+
+        if (!MySqlDb.InitDb())
+        {
+            
+        }
     }
 
     /// <summary>

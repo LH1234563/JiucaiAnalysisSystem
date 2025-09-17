@@ -13,7 +13,7 @@ public class MySqlDb
     //创建数据库对象 (用法和EF Dappper一样通过new保证线程安全)
     public static SqlSugarClient Db;
 
-    public static void InitDb()
+    public static bool InitDb()
     {
         try
         {
@@ -48,11 +48,13 @@ public class MySqlDb
 
             //建表（看文档迁移）
             Db.CodeFirst.InitTables<EastMoneyStock>(); //所有库都支持 
+            return true;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             Log.Logger.Error(e.Message);
+            return false;
         }
     }
 

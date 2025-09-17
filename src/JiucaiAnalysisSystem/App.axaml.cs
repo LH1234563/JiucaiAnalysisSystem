@@ -21,15 +21,8 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-        Load();
     }
 
-    private void Load()
-    {
-        ConfigManager.Initialization();
-        MySqlDb.InitDb();
-        // new MySqlDb().CheckAndCreateDatabase();
-    }
 
     public override void OnFrameworkInitializationCompleted()
     {
