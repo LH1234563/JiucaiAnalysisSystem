@@ -24,19 +24,24 @@
         <viewModels:DailyStocksViewModel />
     </Design.DataContext>
     <Grid RowDefinitions="Auto,*">
-        <StackPanel
-            Grid.Row="0"
-            Height="64"
-            Orientation="Horizontal">
-            <Button
-                Command="{Binding UpdateDataCommand}"
-                Content="刷新数据"
-                Height="45"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center" />
-            <controls:MyCalendarDatePicker DateTimesItemsSource="{Binding TradeDates}" SelectedDate="{Binding SelectedDate}" />
+        <Panel Grid.Row="0" Height="64">
+            <StackPanel Orientation="Horizontal">
 
-        </StackPanel>
+                <Button
+                    Command="{Binding UpdateDataCommand}"
+                    Content="刷新数据"
+                    Height="45"
+                    VerticalAlignment="Center" />
+                <controls:MyCalendarDatePicker DateTimesItemsSource="{Binding TradeDates}" SelectedDate="{Binding SelectedDate}" />
+            </StackPanel>
+
+            <!--  <Button  -->
+            <!--  Command="{Binding UpdateHistoryDataCommand}"  -->
+            <!--  Content="更新历史股票数据"  -->
+            <!--  Height="45"  -->
+            <!--  HorizontalAlignment="Right"  -->
+            <!--  VerticalAlignment="Center" />  -->
+        </Panel>
 
         <DataGrid
             CanUserReorderColumns="True"

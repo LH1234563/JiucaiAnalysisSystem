@@ -1,0 +1,135 @@
+﻿<UserControl
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="JiucaiAnalysisSystem.Views.HistoryStocksView"
+    x:DataType="viewModels:HistoryStocksViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:JiucaiAnalysisSystem.ViewModels"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.DataContext>
+        <!--
+            This only sets the DataContext for the previewer in an IDE,
+            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+        -->
+        <viewModels:HistoryStocksViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*">
+        <Panel Grid.Row="0" Height="64">
+            <StackPanel Orientation="Horizontal">
+
+                <!--  <Button  -->
+                <!--  Command="{Binding UpdateDataCommand}"  -->
+                <!--  Content="刷新数据"  -->
+                <!--  Height="45"  -->
+                <!--  VerticalAlignment="Center" />  -->
+                <!-- <controls:MyCalendarDatePicker DateTimesItemsSource="{Binding TradeDates}" SelectedDate="{Binding SelectedDate}" /> -->
+            </StackPanel>
+
+            <!--  <Button  -->
+            <!--  Command="{Binding UpdateHistoryDataCommand}"  -->
+            <!--  Content="更新历史股票数据"  -->
+            <!--  Height="45"  -->
+            <!--  HorizontalAlignment="Right"  -->
+            <!--  VerticalAlignment="Center" />  -->
+        </Panel>
+
+        <!--  <DataGrid  -->
+        <!--  CanUserReorderColumns="True"  -->
+        <!--  CanUserResizeColumns="True"  -->
+        <!--  CanUserSortColumns="True"  -->
+        <!--  Grid.Row="1"  -->
+        <!--  ItemsSource="{Binding EastMoneyStocks}">  -->
+        <!--     <DataGrid.Columns> -->
+        <!--         <DataGridTextColumn Binding="{Binding Id}" Header="ID" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding StockCode}" Header="股票代码" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding StockName}" Header="股票名称" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding ClosePrice}" Header="最新价 / 收盘价" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding ChangeRate}" Header="涨跌幅(%)" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding ChangeAmount}" Header="涨跌额" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding Volume}" Header="总手" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding Turnover}" Header="成交额" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding Amplitude}" Header="振幅(%)" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding TurnoverRate}" Header="换手率(%)" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding PeRatio}" Header="市盈率（动态）" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding VolumeRatio}" Header="量比" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding ChangeRate5Min}" Header="5分钟涨跌幅" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding HighPrice}" Header="最高价" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding LowPrice}" Header="最低价" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding OpenPrice}" Header="开盘价" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding PrevClose}" Header="昨收" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding TotalMarketCap}" Header="总市值" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding CirculatingMarketCap}" Header="流通市值" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding RiseSpeed}" Header="涨速" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding PbRatio}" Header="市净率" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding ChangeRate60D}" Header="60日涨跌幅" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding ChangeRateYtd}" Header="年初至今涨跌幅" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding ListingDate}" Header="上市日期" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding CurrentVolume}" Header="现手" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding OrderRatio}" Header="委比" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding OutVolume}" Header="外盘" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding InVolume}" Header="内盘" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding AvgHoldShares}" Header="人均持股数" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding RoeWeighted}" Header="净资产收益率(加权)" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding TotalShares}" Header="总股本" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding CirculatingShares}" Header="流通股" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding Revenue}" Header="营业收入" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding RevenueYoy}" Header="营业收入同比" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding OperatingProfit}" Header="营业利润" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding InvestmentIncome}" Header="投资收益" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding TotalProfit}" Header="利润总额" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding NetProfit}" Header="净利润" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding NetProfitYoy}" Header="净利润同比" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding UndistributedProfit}" Header="未分配利润" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding UndistributedProfitPerShare}" Header="每股未分配利润" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding GrossProfitMargin}" Header="毛利率" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding TotalAssets}" Header="总资产" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding CurrentAssets}" Header="流动资产" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding FixedAssets}" Header="固定资产" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding IntangibleAssets}" Header="无形资产" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding TotalLiabilities}" Header="总负债" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding CurrentLiabilities}" Header="流动负债" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding LongTermLiabilities}" Header="长期负债" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding DebtRatio}" Header="资产负债比率" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding MainNetInflow}" Header="主力净流入" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding CallAuction}" Header="集合竞价" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding UltraLargeInflow}" Header="超大单流入" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding UltraLargeOutflow}" Header="超大单流出" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding UltraLargeNet}" Header="超大单净额" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding UltraLargeNetRatio}" Header="超大单净占比" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding LargeInflow}" Header="大单流入" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding LargeOutflow}" Header="大单流出" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding LargeNet}" Header="大单净额" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding LargeNetRatio}" Header="大单净占比" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding MediumInflow}" Header="中单流入" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding MediumOutflow}" Header="中单流出" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding MediumNet}" Header="中单净额" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding MediumNetRatio}" Header="中单净占比" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding SmallInflow}" Header="小单流入" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding SmallOutflow}" Header="小单流出" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding SmallNet}" Header="小单净额" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding SmallNetRatio}" Header="小单净占比" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding DdxToday}" Header="当日DDX" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding DdyToday}" Header="当日DDY" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding DdzToday}" Header="当日DDZ" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding Ddx5D}" Header="5日DDX" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding Ddy5D}" Header="5日DDY" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding Ddx10D}" Header="10日DDX" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding Ddy10D}" Header="10日DDY" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding DdxRedDays}" Header="DDX飘红天数(连续)" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding DdxRedDays5D}" Header="DDX飘红天数(5日)" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding DdxRedDays10D}" Header="DDX飘红天数(10日)" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding Industry}" Header="行业" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding SectorLeaderStock}" Header="板块领涨股" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding RegionSector}" Header="地区板块" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding PeStatic}" Header="市盈率（静）" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding PeTtm}" Header="市盈率（TTM）" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding UpdateDate}" Header="更新日期" /> -->
+        <!--         <DataGridTextColumn Binding="{Binding CurrentDate}" Header="当前日期" /> -->
+        <!--     </DataGrid.Columns> -->
+        <!-- </DataGrid> -->
+    </Grid>
+</UserControl>

@@ -23,10 +23,14 @@ public class MainWindowViewModel : ReactiveObject
     public MainWindowViewModel(IEnumerable<PageBase> pages, PageNavigationService pageNavigationService,
         ISukiToastManager toastManager, ISukiDialogManager dialogManager)
     {
+        ToastManager = toastManager;
+        DialogManager = dialogManager;
         Pages = new AvaloniaList<PageBase>(pages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         LoadedCommand = ReactiveCommand.Create(Load);
     }
 
+    public ISukiToastManager ToastManager { get; }
+    public ISukiDialogManager DialogManager { get; }
     public ReactiveCommand<Unit, Unit> LoadedCommand { get; }
 
     private void Load()

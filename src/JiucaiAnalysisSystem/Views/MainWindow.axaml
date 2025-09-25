@@ -31,6 +31,10 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
+    <sukiUi:SukiWindow.Hosts>
+        <sukiUi:SukiToastHost Manager="{Binding ToastManager}" />
+        <sukiUi:SukiDialogHost Manager="{Binding DialogManager}" />
+    </sukiUi:SukiWindow.Hosts>
     <Panel>
         <sukiUi:SukiSideMenu
             IsSearchEnabled="True"
